@@ -3,6 +3,8 @@
 ALWAYS_STARTS_WITH_KNOWN_LETTER = True
 MAX_LENGHT_VARIATION = 1
 FOUND_CHARS_LENGHT_MULTI = 0.9
+KNOWN_PASSPHRASE = None
+PASSPHRASE_LENGHT = None
 
 WORD_SEPARATOR = ' '
 
@@ -14,18 +16,35 @@ with open('bip_039_wordlist.txt', 'r') as dictionary_file:
 
 print("Loaded {} words".format(len(dictionary)))
 
-known_passphrase = None
-if not known_passphrase:
-    known_passphrase = input('Input the known passphrase: ')
+if not KNOWN_PASSPHRASE:
+    KNOWN_PASSPHRASE = input('Input the known passphrase: ')
 
-known_words = known_passphrase.split(WORD_SEPARATOR)
+known_words = KNOWN_PASSPHRASE.split(WORD_SEPARATOR)
 
-print("Looking for passphrases similar to: {}\n".format(known_words))
+if PASSPHRASE_LENGHT and len(known_words) != PASSPHRASE_LENGHT:
+    raise ValueError(
+        "Expected {} words, got {}".format(
+            PASSPHRASE_LENGHT,
+            len(known_words),
+        )
+    )
+
+print(
+    "Looking for passphrases similar to: {}\n".format(known_words)
+)
 
 for word in known_words:
     word_lengh = len(word)
     score_needed = int(FOUND_CHARS_LENGHT_MULTI*word_lengh)
     possible_matches = []
+
+    if word not in dictionary:
+        raise RuntimeError(
+            "The word '{}' is not in the dictonary".format(
+                word,
+            )
+        )
+
     for dictionary_word in dictionary:
         score = 0
         if (
