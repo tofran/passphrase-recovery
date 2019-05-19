@@ -1,5 +1,6 @@
 
 
+import pdb
 from abc import ABC
 
 
@@ -17,17 +18,23 @@ class ArrayWordList(WordList):
         self.list = list(iterable)
 
 
-class MultilineStringWordList(WordList):
+class StringWordList(WordList):
     def __init__(self, multiline_string):
-        self.list = self._get_list(multiline_string)
+        self.list = self.make_list(self.string.split("\n"))
 
-    def _get_list(self, multiline_string):
+    def make_list(self, iterable):
         return list(
             filter(
                 lambda word: word != "",
-                map(lambda word: word.strip(), self.string.split("\n"))
+                map(lambda word: word.strip(), iterable)
             )
         )
+
+
+class FileWordlist(StringWordList):
+    def __init__(self, filenpath):
+        with open(filenpath, "r") as f:
+            self.list = self.make_list(f)
 
 
 class Suggester:
@@ -80,8 +87,8 @@ class Suggester:
 
             matched_words = 0
             if (
-                dictionary_word.startswith(word[:self.prefix_match_lenght]) and
-                abs(
+                dictionary_word.startswith(word[:self.prefix_match_lenght])
+                and abs(
                     word_lengh-len(dictionary_word)
                 ) <= self.allowed_lenght_delta
             ):
