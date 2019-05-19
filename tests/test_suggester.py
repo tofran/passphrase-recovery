@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from passphrase_savior import Suggester, ArrayWordList
+from passphrase_savior import Suggestor, WordList
 
 
 DUMMY_WORDLIST = [
@@ -13,55 +13,64 @@ DUMMY_WORDLIST = [
 ]
 
 
-class SuggesterTestCase(TestCase):
+class SuggestorTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.suggestor = Suggester(
-            ArrayWordList(DUMMY_WORDLIST)
-        )
+        cls.wordlist = WordList(DUMMY_WORDLIST)
 
         super().setUpClass()
 
     def test_get_similar_matches_with_prefix(self):
+        sugestor = Suggestor(
+            self.wordlist,
+            prefix_match_lenght=2,
+            allowed_lenght_delta=1,
+            percentage_of_chars_to_match=70,
+            include_itself=False,
+        )
+
         self.assertEqual(
-            set(self.suggestor.get_similar(
-                word="bicke",
-                prefix_match_lenght=2,
-                allowed_lenght_delta=1,
-                percentage_of_chars_to_match=70,
-            )),
+            set(sugestor.get_similar("bicke")),
             {"bike"}
         )
 
     def test_get_similar_matches_one_without_prefix(self):
+        sugestor = Suggestor(
+            self.wordlist,
+            prefix_match_lenght=0,
+            allowed_lenght_delta=1,
+            percentage_of_chars_to_match=90,
+            include_itself=False,
+        )
+
         self.assertEqual(
-            set(self.suggestor.get_similar(
-                word="rain",
-                prefix_match_lenght=0,
-                allowed_lenght_delta=1,
-                percentage_of_chars_to_match=90,
-            )),
+            set(sugestor.get_similar("rain")),
             {"train"}
         )
 
     def test_get_similar_matches_two_without_prefix(self):
+        sugestor = Suggestor(
+            self.wordlist,
+            prefix_match_lenght=0,
+            allowed_lenght_delta=1,
+            percentage_of_chars_to_match=70,
+            include_itself=False,
+        )
+
         self.assertEqual(
-            set(self.suggestor.get_similar(
-                word="rain",
-                prefix_match_lenght=0,
-                allowed_lenght_delta=1,
-                percentage_of_chars_to_match=70,
-            )),
+            set(sugestor.get_similar("rain")),
             {"train", "car"}
         )
 
     def test_get_similar_no_matches(self):
+        sugestor = Suggestor(
+            self.wordlist,
+            prefix_match_lenght=1,
+            allowed_lenght_delta=1,
+            percentage_of_chars_to_match=70,
+            include_itself=False,
+        )
+
         self.assertFalse(
-            set(self.suggestor.get_similar(
-                word="rain",
-                prefix_match_lenght=1,
-                allowed_lenght_delta=1,
-                percentage_of_chars_to_match=70,
-                include_word=False,
-            )),
+            set(sugestor.get_similar("rain")),
         )

@@ -1,26 +1,22 @@
 
 
-import pdb
 from abc import ABC
 
 
 class WordList(ABC):
-    def get_list(self):
-        return self.list
+    def __init__(self, list):
+        self.list = list
 
-    # TODO: check online on how to properlly implement in keyword
-    def contains(self, obj):
-        return obj in self.get_list()
+    def __iter__(self):
+        return iter(self.list)
 
-
-class ArrayWordList(WordList):
-    def __init__(self, iterable):
-        self.list = list(iterable)
+    def __contains__(self, item):
+        return item in self.list
 
 
-class StringWordList(WordList):
-    def __init__(self, multiline_string):
-        self.list = self.make_list(self.string.split("\n"))
+class StrWordList(WordList):
+    def __init__(self, input_str):
+        self.list = self.make_list(input_str.split("\n"))
 
     def make_list(self, iterable):
         return list(
@@ -31,14 +27,14 @@ class StringWordList(WordList):
         )
 
 
-class FileWordlist(StringWordList):
+class FileWordlist(StrWordList):
     def __init__(self, filenpath):
         with open(filenpath, "r") as f:
             self.list = self.make_list(f)
 
 
-class Suggester:
-    DEFAULT_WORD_SEPARATOR = ""
+class Suggestor:
+    DEFAULT_WORD_SEPARATOR = " "
 
     def __init__(
         self,
@@ -48,7 +44,7 @@ class Suggester:
         prefix_match_lenght=2,
         allowed_lenght_delta=2,
         percentage_of_chars_to_match=70,
-        include_word=False,
+        include_itself=False,
     ):
         self.wordlist = wordlist
         self.word_separator = self.DEFAULT_WORD_SEPARATOR if word_separator is None else word_separator
@@ -56,19 +52,14 @@ class Suggester:
         self.prefix_match_lenght = prefix_match_lenght
         self.allowed_lenght_delta = allowed_lenght_delta
         self.percentage_of_chars_to_match = percentage_of_chars_to_match
-        self.include_word = include_word
+        self.include_itself = include_itself
 
     def get_words(self, passphrase_str):
         return passphrase_str.split(self.word_separator)
 
     def get_variations(self, passphrase_str):
         for word in self.get_words(passphrase_str):
-            yield set(self.get_similar(
-                prefix_match_lenght=2,
-                allowed_lenght_delta=2,
-                percentage_of_chars_to_match=70,
-                include_word=False,
-            ))
+            yield set(self.get_similar(word))
 
     def get_similar(
         self,
@@ -79,9 +70,9 @@ class Suggester:
             self.percentage_of_chars_to_match/100*word_lengh
         )  # floring, should I round?
 
-        for dictionary_word in self.wordlist.get_list():
+        for dictionary_word in self.wordlist:
             if dictionary_word == word:
-                if self.include_word:
+                if self.include_itself:
                     yield word
                 continue
 
