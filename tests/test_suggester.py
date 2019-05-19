@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-from passphrase_savior import Suggestor, WordList
+from passphrase_helper.suggestor import Suggestor
+from passphrase_helper.wordlist import WordList
 
 
 DUMMY_WORDLIST = [

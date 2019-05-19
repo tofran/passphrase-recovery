@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from passphrase_savior import StrWordList, WordList
+from passphrase_helper.wordlist import WordList, StrWordList
 
 
 class WordListTestCase(TestCase):
