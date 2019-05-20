@@ -1,35 +1,51 @@
 
+import itertools
+
+
 class Suggestor:
     DEFAULT_WORD_SEPARATOR = " "
 
     def __init__(
         self,
         wordlist,
-        word_separator=None,
+        passphrase_str,
 
         prefix_match_lenght=2,
         allowed_lenght_delta=2,
         percentage_of_chars_to_match=70,
-        include_itself=False,
+        word_separator=None,
     ):
         self.wordlist = wordlist
-        self.word_separator = self.DEFAULT_WORD_SEPARATOR if word_separator is None else word_separator
 
         self.prefix_match_lenght = prefix_match_lenght
         self.allowed_lenght_delta = allowed_lenght_delta
         self.percentage_of_chars_to_match = percentage_of_chars_to_match
-        self.include_itself = include_itself
 
-    def get_words(self, passphrase_str):
-        return passphrase_str.split(self.word_separator)
+        self.word_separator = self.DEFAULT_WORD_SEPARATOR if word_separator is None else word_separator
+        self.passphrase = passphrase_str.split(self.word_separator)
 
-    def get_variations(self, passphrase_str):
-        for word in self.get_words(passphrase_str):
-            yield set(self.get_similar(word))
+    # def get_variations(self, passphrase_str):
+    #     for word in self.get_words(passphrase_str):
+    #         yield set(self.get_similar(word, include_itself=False))
+
+    def suggest(self):
+        for word in self.passphrase:
+            yield (word, set(self.get_similar(word, include_itself=False)))
+
+    def get_possibilities(self):
+        for word in self.passphrase:
+            yield set(self.get_similar(word, include_itself=True))
+
+    def get_permutations(self):
+        return itertools.product(*self.get_possibilities())  # FIXME: NOT THE PRODUCT
+
+    def get_possible_passphrases(self):
+        return map(lambda words: self.word_separator.join(words), self.get_permutations())
 
     def get_similar(
         self,
         word,
+        include_itself=False,
     ):
         word_lengh = len(word)
         number_of_chars_to_match = int(
@@ -38,7 +54,7 @@ class Suggestor:
 
         for dictionary_word in self.wordlist:
             if dictionary_word == word:
-                if self.include_itself:
+                if include_itself:
                     yield word
                 continue
 
