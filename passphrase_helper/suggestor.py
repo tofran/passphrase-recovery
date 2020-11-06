@@ -1,5 +1,5 @@
 
-import itertools
+from itertools import product
 
 
 class Suggestor:
@@ -10,10 +10,10 @@ class Suggestor:
         wordlist,
         passphrase_str,
 
-        prefix_match_lenght=2,
-        allowed_lenght_delta=2,
-        percentage_of_chars_to_match=70,
-        word_separator=None,
+        prefix_match_lenght,
+        allowed_lenght_delta,
+        percentage_of_chars_to_match,
+        word_separator,
     ):
         self.wordlist = wordlist
 
@@ -28,16 +28,20 @@ class Suggestor:
     #     for word in self.get_words(passphrase_str):
     #         yield set(self.get_similar(word, include_itself=False))
 
-    def suggest(self):
+    def get_invalid(self):
+        return [word for word in self.passphrase if word not in self.wordlist]
+
+    def suggest(self, only_errors=False):
         for word in self.passphrase:
-            yield (word, set(self.get_similar(word, include_itself=False)))
+            if not only_errors or word not in self.wordlist:
+                yield (word, self.get_similar(word, include_itself=False))
 
     def get_possibilities(self):
         for word in self.passphrase:
-            yield set(self.get_similar(word, include_itself=True))
+            yield self.get_similar(word, include_itself=True)
 
     def get_permutations(self):
-        return itertools.product(*self.get_possibilities())  # FIXME: NOT THE PRODUCT
+        return product(*self.get_possibilities())
 
     def get_possible_passphrases(self):
         return map(lambda words: self.word_separator.join(words), self.get_permutations())
@@ -58,7 +62,7 @@ class Suggestor:
                     yield word
                 continue
 
-            matched_words = 0
+            matched_chars = 0
             if (
                 dictionary_word.startswith(word[:self.prefix_match_lenght])
                 and abs(
@@ -68,7 +72,7 @@ class Suggestor:
                 for char in word:
                     # TODO: consider character order
                     if char in dictionary_word:
-                        matched_words += 1
+                        matched_chars += 1
 
-                if matched_words >= number_of_chars_to_match:
+                if matched_chars >= number_of_chars_to_match:
                     yield dictionary_word
