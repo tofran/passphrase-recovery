@@ -1,0 +1,29 @@
+{
+  "name": "passphrase-recovery",
+  "version": "1.0.0",
+  "description": "Easily recover misspelled passphrases.",
+  "main": "index.js",
+  "keywords": [
+    "passphrase",
+    "recovery",
+    "bitcoin",
+    "cryptocurrency"
+  ],
+  "author": "tofran",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tofran/passphrase-savior.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tofran/passphrase-savior/issues"
+  },
+  "homepage": "https://github.com/tofran/passphrase-savior#readme",
+  "scripts": {},
+  "devDependencies": {
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^4.0.5"
+  }
+}
