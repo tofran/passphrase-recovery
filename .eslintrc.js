@@ -7,7 +7,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended" // TODO: understad why I need this (eslint-plugin-react-hooks)
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {

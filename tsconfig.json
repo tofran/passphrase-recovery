@@ -34,6 +34,11 @@
     /*  Emit interop between CommonJS and ES modules */
     "esModuleInterop": true,
   },
+  // "resolveJsonModule": true,
+  "args": [ // TODO: understand
+    "-p",
+    "./src"
+  ],
   "include": [
     "src/**/*"
   ]
