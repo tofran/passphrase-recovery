@@ -1,5 +1,5 @@
 {
-  "name": "passphrase-recovery",
+  "name": "passphrase-recovery-tool",
   "version": "1.0.0",
   "description": "Easily recover misspelled passphrases.",
   "main": "index.js",
@@ -13,12 +13,12 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tofran/passphrase-savior.git"
+    "url": "git+https://github.com/tofran/passphrase-recovery-tool.git"
   },
   "bugs": {
-    "url": "https://github.com/tofran/passphrase-savior/issues"
+    "url": "https://github.com/tofran/passphrase-recovery-tool/issues"
   },
-  "homepage": "https://github.com/tofran/passphrase-savior#readme",
+  "homepage": "https://github.com/tofran/passphrase-recovery-tool#readme",
   "devDependencies": {
     "@types/levenshtein-edit-distance": "^2.0.1",
     "@types/react": "^16.9.56",
