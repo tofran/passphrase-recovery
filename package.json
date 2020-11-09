@@ -43,8 +43,8 @@
     "react-dom": "^17.0.1"
   },
   "scripts": {
-    "full-build": "run-s clean lint build",
-    "build": "parcel build src/index.html --no-source-maps",
+    "build": "run-s clean lint build:bundle",
+    "build:bundle": "parcel build src/index.html --no-source-maps --public-url ./",
     "clean": "rimraf ./dist",
     "lint": "eslint --ext ts,tsx src",
     "start": "parcel src/index.html --open"
