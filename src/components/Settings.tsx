@@ -18,13 +18,12 @@ export const MatcherSettings: React.FunctionComponent<IMatcherSettingsProps> = (
     settingName: string
   ) => (
     event: React.ChangeEvent<HTMLInputElement>
-  ) => (
-        setSimilarityMatcherSettings({
-          ...similarityMatcherSettings,
-          [settingName]: event.target.value
-        })
-      )
-
+  ) => {
+      setSimilarityMatcherSettings({
+        ...similarityMatcherSettings,
+        [settingName]: parseInt(event.target.value),
+      })
+    }
 
   return (
     <form>

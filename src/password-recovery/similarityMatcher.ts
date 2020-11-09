@@ -16,7 +16,6 @@ export interface ISimilarityMatcherArgs extends ISimilarityMatcherSettings {
   wordlist: Array<string>,
 }
 
-
 export const getSimilarities = (
   {
     word,
@@ -48,5 +47,6 @@ export const getSimilarities = (
 export const getSimilarWords = (
   args: ISimilarityMatcherArgs
 ): Array<string> => (
-    getSimilarities(args).map(({ word }) => word)
+    getSimilarities(args)
+      .map(({ word }) => word)
   )

@@ -10,7 +10,6 @@ const wordlist = bip039.wordlist;
 export const PassphraseRecovery: React.FunctionComponent = () => {
   const [passphrase, setPassphrase] = useState<string[]>()
 
-
   const [
     similarityMatcherSettings, setSimilarityMatcherSettings
   ] = React.useState<ISimilarityMatcherSettings>({
@@ -23,7 +22,7 @@ export const PassphraseRecovery: React.FunctionComponent = () => {
       input.value
         .replaceAll("\n", " ")
         .split(" ")
-        .map((word) => (
+        .map(word => (
           word
             .trim()
             .toLowerCase()
@@ -41,7 +40,7 @@ export const PassphraseRecovery: React.FunctionComponent = () => {
   return (
     <>
       <textarea
-        placeholder="Type your misspelled passphrease"
+        placeholder="Type your misspelled passphrase"
         onChange={onInputChange}
         rows={6}
       >
