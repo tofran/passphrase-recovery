@@ -1,18 +1,24 @@
-# Passphrase recovery tool
+# [Passphrase recovery tool](https://tofran.github.io/passphrase-recovery-tool/)
 
 Easily recover misspelled passphrases.
 
 ![Passphrase recovery tool preview](./preview.png)
 
-# Use offline
+## Usage
 
- - From browser: You should be able to save the live version hitting `Ctrl + S`.
+  - Visit https://tofran.github.io/passphrase-recovery-tool/
+    
+    You should be able to save the live version hitting `Ctrl + S` and use it offline.
 
- - From source: Follow [development](#development)
-  
-# Devevelopment
+  - Download or clone from github and open `dist/index.html` with your browser.
 
-  1. Make sure you have `node 12.x`
-  2. Download or clone this repo
-  3. `npm install`
-  4. `npm run build`
+## Build
+
+  1. Make sure you have `node 12.x`;
+  2. Clone this repo;
+  3. `npm install`;
+  4. `npm start` for development or `npm run build` to create a release bundle.
+
+## License
+
+GNU General Public License v3.0
