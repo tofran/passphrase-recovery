@@ -1,30 +1,26 @@
 import React, { SetStateAction, Dispatch } from 'react';
-
-// TODO: MAKE WORDLIST SELECOR
-
-const wordlists = {
-  "Bitcoin's BIP 39": "/wordlists/bip_039.txt"
-}
-
-// const defaultWordlist = Object.keys(wordlists)[0]
+import { wordlists } from '~/password-recovery/wordlists';
 
 interface IWordlistSelectorProps {
-  setDictionary: Dispatch<SetStateAction<Array<string>>>
+  setWordlist: Dispatch<SetStateAction<Array<string>>>
 }
 
 export const WordlistSelector: React.FunctionComponent<IWordlistSelectorProps> = (
-  props: IWordlistSelectorProps
+  {setWordlist: setWordlist}: IWordlistSelectorProps
 ) => {
-  console.log(props)
+  const onWordlistChange = ({target: select}: React.ChangeEvent<HTMLSelectElement>) => {
+    const wordlistId = select.options[select.selectedIndex].id
+    setWordlist(wordlists.find(wordlist => wordlist.id == wordlistId)?.wordlist || [])
+  }
 
   return (
     <>
-      <select>
+      <select onChange={onWordlistChange}>
         {
-          Object.keys(wordlists).map((wordlistName) => {
+          wordlists.map((wordlist) => {
             return (
-              <option key={wordlistName} value={wordlistName}>
-                {wordlistName}
+              <option key={wordlist.id} id={wordlist.id} value={wordlist.name} >
+                {wordlist.name}
               </option>
             )
           })

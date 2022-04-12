@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { ISimilarityMatcherSettings } from '~/password-recovery/similarityMatcher';
-import { bip039 } from '~/password-recovery/wordlists';
+import { wordlists } from '~/password-recovery/wordlists';
 import { PassphraseWord } from './PassphraseWord';
 import { MatcherSettings } from './Settings';
-
-
-const wordlist = bip039.wordlist;
+import { WordlistSelector } from './WordlistSelector';
 
 export const PassphraseRecovery: React.FunctionComponent = () => {
   const [passphrase, setPassphrase] = useState<string[]>()
+  const [wordlist, setWordlist] = useState<string[]>(wordlists[0].wordlist)
 
   const [
     similarityMatcherSettings, setSimilarityMatcherSettings
   ] = React.useState<ISimilarityMatcherSettings>({
     maxDiff: 2,
-    maxSuggestions: -1
+    maxSuggestions: 99
   })
 
   const updateInputWords = (input: HTMLTextAreaElement) => {
@@ -39,20 +38,15 @@ export const PassphraseRecovery: React.FunctionComponent = () => {
 
   return (
     <>
+      <WordlistSelector setWordlist={setWordlist}/>
+      <span>{`Loaded ${wordlist.length} words from the worlist.`}</span>
+
       <textarea
-        placeholder="Type your misspelled passphrase"
+        placeholder="Type your misspelled passphrase..."
         onChange={onInputChange}
         rows={6}
       >
       </textarea>
-
-      <p>
-        {
-          wordlist
-            ? `Loaded ${wordlist.length} words from the worlist.`
-            : `Loading wordlist...`
-        }
-      </p>
 
       <MatcherSettings
         similarityMatcherSettings={similarityMatcherSettings}

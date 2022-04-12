@@ -28,7 +28,8 @@ export const MatcherSettings: React.FunctionComponent<IMatcherSettingsProps> = (
   return (
     <form>
       <label>
-        Max difference:
+        Max word distance
+        (<a href='https://en.wikipedia.org/wiki/Levenshtein_distance'>Levenshtein distance</a>):
         <input
           type="number"
           min="0"
@@ -40,7 +41,7 @@ export const MatcherSettings: React.FunctionComponent<IMatcherSettingsProps> = (
         Max suggestions per word:
         <input
           type="number"
-          min="-1"
+          min="0"
           value={similarityMatcherSettings.maxSuggestions}
           onChange={handleInputChange("maxSuggestions")} />
       </label>

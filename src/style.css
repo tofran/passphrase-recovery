@@ -19,7 +19,11 @@ textarea {
   width: 98%;
   border: 0;
   padding: 0.4em;
-  margin: 0;
+  margin: 1em 0 0 0;
+}
+
+select {
+  margin-right: 0.5em;
 }
 
 kbd {
@@ -36,6 +40,10 @@ kbd {
   line-height: 1;
   padding: 2px 4px;
   white-space: nowrap;
+}
+
+label {
+  display: block;
 }
 
 label > input {
